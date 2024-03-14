@@ -3,14 +3,20 @@ package ru.megaland.mvi
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
@@ -20,7 +26,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.megaland.mvi.ui.theme.MviTheme
@@ -33,34 +42,18 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.background(Color.Yellow)
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.SpaceEvenly,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.background(Color.Red)
-                        ) {
-                            Greeting("Column1")
-                            Greeting("Column1")
+                    Column {
+                        Row {
+                            ListItem(name = "Arnold", profession = "Actor")
                         }
-                        Column(
-                            verticalArrangement = Arrangement.Top,
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .background(Color.White)
-                                .fillMaxHeight(fraction = 0.5F)
-                        ) {
-                            Card(modifier = Modifier
-                                .fillMaxHeight()
-                                .padding(10.dp),
-                                shape = RoundedCornerShape(20.dp),
-                                elevation = CardDefaults.cardElevation(2.dp)
-                            ) {
-                                Text(text = "sdsdsdsdsdsdsd")
-                            }
+                        Row {
+                            ListItem(name = "Arnold", profession = "Actor")
+                        }
+                        Row {
+                            ListItem(name = "Arnold", profession = "Actor")
+                        }
+                        Row {
+                            ListItem(name = "Arnold", profession = "Actor")
                         }
                     }
                 }
@@ -70,16 +63,35 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!", modifier = modifier
-    )
-}
+private fun ListItem(name: String, profession: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.background),
+        elevation = CardDefaults.cardElevation(2.dp),
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MviTheme {
-        Greeting("Android")
+        ) {
+        Box {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.arn),
+                    contentDescription = "A.Sh",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .size(64.dp)
+                        .clip(CircleShape)
+                )
+                Column(modifier = Modifier.padding(start = 10.dp)) {
+                    Text(text = name)
+                    Text(text = profession)
+                }
+
+            }
+        }
     }
 }
