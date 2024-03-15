@@ -48,75 +48,10 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                        repeat(15) {
-                            Row {
-                                ColumnListItem(name = "Arnold", number = it, profession = "Actor")
-                            }
-                        }
-                    }
+                    ColumnListItem.execute(name = "Arnold", profession = "Actor", repeat = 15)
                 }
             }
         }
     }
 }
 
-@Composable
-private fun ColumnListItem(name: String, number: Int, profession: String) {
-    val counter = remember {
-        mutableIntStateOf(0)
-    }
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-            .clickable {
-                counter.intValue++
-                Log.d("AAA", "ListItem $name$number Click! ")
-            }
-            .pointerInput(Unit) {
-                detectDragGesturesAfterLongPress { change, dragAmount ->
-                    Log.d(
-                        "AAA",
-                        "ListItem $name$number detectDragGesturesAfterLongPress:  $dragAmount ${change.position}"
-                    )
-                }
-            },
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.background),
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Box {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.arn),
-                    contentDescription = "A.Sh",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(5.dp)
-                        .size(64.dp)
-                        .clip(CircleShape)
-                )
-                Column(modifier = Modifier.padding(start = 10.dp)) {
-                    Text(text = "$name$number", fontWeight = FontWeight.Bold)
-                    Text(text = "$profession$number")
-                }
-                Column(
-                    modifier = Modifier
-                        .background(Color.Red, shape = CircleShape)
-                        .padding(horizontal = 10.dp, vertical = 2.dp),
-                ) {
-
-                    Text(
-                        text = "${counter.intValue}",
-                        color = MaterialTheme.colorScheme.background,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-        }
-    }
-}
