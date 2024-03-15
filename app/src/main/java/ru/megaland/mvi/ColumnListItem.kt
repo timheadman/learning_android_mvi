@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,21 +36,49 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 class ColumnListItem {
+
+    data class ListItemData(
+        val name: String,
+        val profession: String
+    )
+
     companion object {
+        @Composable
+        fun ExecuteLazy(name: String, profession: String, repeat: Int = 1) {
+            LazyColumn() {
+                items(count = repeat) {
+                    SingleItem(name = name, number = it, profession = profession)
+                }
+            }
+        }
 
         @Composable
-        fun execute(name: String, profession: String, repeat: Int = 1) {
+        fun ExecuteLazyIndexed() {
+            LazyColumn() {
+                itemsIndexed(
+                    listOf(
+                        ListItemData("Arnold", "Actor"),
+                        ListItemData("Arnold", "Actor")
+                    )
+                ) { index, item ->
+                    SingleItem(name = item.name, number = index, profession = item.profession)
+                }
+            }
+        }
+
+        @Composable
+        fun Execute(name: String, profession: String, repeat: Int = 1) {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 repeat(repeat) {
                     Row {
-                        item(name = name, number = it, profession = profession)
+                        SingleItem(name = name, number = it, profession = profession)
                     }
                 }
             }
         }
 
         @Composable
-        private fun item(name: String, number: Int, profession: String) {
+        private fun SingleItem(name: String, number: Int, profession: String) {
             val counter = remember {
                 mutableIntStateOf(0)
             }
